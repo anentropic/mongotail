@@ -34,18 +34,32 @@ from pymongo.errors import ConnectionFailure
 
 from . import __version__, __license__, __doc__, __url__, __usage__
 
+
 DEFAULT_LIMIT = 10
 LOG_QUERY = {
-        "ns": re.compile(r"^((?!(admin\.\$cmd|\.system)).)*$"),
-        "command.profile": {"$exists": False},
-        "command.collStats": {"$exists": False},
-        "command.collstats": {"$exists": False},
-        "command.createIndexes": {"$exists": False},
-        "command.dbstats": {"$exists": False},
-        "command.count": {"$ne": "system.profile"},
-        "op": re.compile(r"^((?!(getmore|killcursors)).)"),
+    "ns": re.compile(r"^((?!(admin\.\$cmd|\.system)).)*$"),
+    "command.profile": {"$exists": False},
+    "command.collStats": {"$exists": False},
+    "command.collstats": {"$exists": False},
+    "command.createIndexes": {"$exists": False},
+    "command.dbstats": {"$exists": False},
+    "command.count": {"$ne": "system.profile"},
+    "op": re.compile(r"^((?!(getmore|killcursors)).)"),
 }
-LOG_FIELDS = ['ts', 'op', 'ns', 'query', 'updateobj', 'command', 'ninserted', 'ndeleted', 'nMatched']
+LOG_FIELDS = [
+    'ts',
+    'op',
+    'ns',
+    'query',
+    'updateobj',
+    'command',
+    'ninserted',
+    'ndeleted',
+    'nMatched',
+    'nscanned',
+    'nreturned',
+]
+
 
 def tail(client, db, lines, follow):
     if get_version_string() >= "3.0":
